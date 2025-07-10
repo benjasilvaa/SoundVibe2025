@@ -1,0 +1,272 @@
+.footer iframe {
+  display: none;
+}
+
+.cover {
+  width: 100%;
+  height: 120px;
+  background-color: #333;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card {
+  width: 150px;
+  padding: 0.5rem;
+  background: linear-gradient(145deg, #1f1f2f, #2a2a40);
+  border-radius: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255, 0, 204, 0.1), 0 2px 5px rgba(30, 144, 255, 0.05);
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  font-weight: 500;
+  color: #eaeaea;
+}
+
+.albumArt img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.home-page {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  background-color: #0a0a0a;
+}
+
+.sidebar {
+  background-color: #000;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar h1 {
+  font-size: 1.5rem;
+  background: linear-gradient(90deg, #1e90ff, #ff00cc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nav a {
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.createBtn {
+  background: linear-gradient(45deg, #1e90ff, #ff00cc);
+  border: none;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px #ff00cc;
+}
+
+.createBtn:hover {
+  box-shadow: 0 0 20px #1e90ff, 0 0 30px #ff00cc;
+}
+
+.legal a {
+  color: #666;
+  font-size: 0.75rem;
+}
+
+.main {
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header input {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: none;
+  width: 200px;
+  background-color: #1f1f2f;
+  color: white;
+}
+
+.header input::placeholder {
+  color: #aaa;
+}
+
+.searchResults {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  width: 250px;
+  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.searchResultItem {
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+  color: #ccc;
+  transition: background-color 0.2s ease;
+}
+
+.searchResultItem:hover {
+  background-color: #292929;
+  color: white;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #1e90ff, #ff00cc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.recentGrid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.footer {
+  grid-column: 1 / -1;
+  background-color: #181818;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid #333;
+}
+
+.songInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.albumArt {
+  width: 50px;
+  height: 50px;
+  background-color: #444;
+  border-radius: 0.5rem;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.controls button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.volume input[type='range'] {
+  width: 100px;
+}
+
+.searchResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 300px;
+  background-color: #1f1f2f;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  padding: 0.5rem 0;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.searchResultItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+  }
+
+  span {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  &:hover {
+    background-color: #333;
+  }
+}
