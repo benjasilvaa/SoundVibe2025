@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Home.module.scss";
 import { searchVideos } from "../api/backendApi";
 import YouTubePlayer from "../components/YouTubePlayer";
@@ -11,6 +11,10 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [recentVideos, setRecentVideos] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [volume, setVolume] = useState(50);
+
+  const inputRef = useRef(null);
+  const [inputWidth, setInputWidth] = useState(0);
 
   const truncateTitle = (title, maxLength = 25) => {
     return title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
@@ -105,6 +109,23 @@ export default function Home() {
     setSearchResults([]);
   };
 
+  const handlePlayerReady = (playerInstance) => {
+    playerInstance.setVolume(volume);
+    setPlayer(playerInstance);
+  };
+
+  // Medir ancho del input
+  useEffect(() => {
+    const updateWidth = () => {
+      if (inputRef.current) {
+        setInputWidth(inputRef.current.offsetWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
   return (
     <div className={styles["home-page"]}>
       <aside className={styles.sidebar}>
@@ -125,13 +146,17 @@ export default function Home() {
           <h2>Buenos días</h2>
           <div style={{ position: "relative" }}>
             <input
+              ref={inputRef}
               type="text"
               placeholder="Buscar canción..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             {searchResults.length > 0 && (
-              <div className={styles.searchResults}>
+              <div
+                className={styles.searchResults}
+                style={{ width: `${inputWidth}px` }}
+              >
                 {searchResults.slice(0, 5).map((video, i) => (
                   <div
                     key={i}
@@ -211,10 +236,22 @@ export default function Home() {
         </div>
 
         <div className={styles.volume}>
-          <input type="range" />
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={volume}
+            onChange={(e) => {
+              const newVolume = parseInt(e.target.value);
+              setVolume(newVolume);
+              if (player) {
+                player.setVolume(newVolume);
+              }
+            }}
+          />
         </div>
 
-        <YouTubePlayer videoId={videoId} onReady={setPlayer} />
+        <YouTubePlayer videoId={videoId} onReady={handlePlayerReady} />
       </footer>
     </div>
   );
