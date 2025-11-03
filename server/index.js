@@ -10,7 +10,9 @@ const API_KEY = process.env.YOUTUBE_API_KEY;
 
 app.get('/api/search', async (req, res) => {
   const query = req.query.q;
-  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=5&key=${API_KEY}`;
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&videoCategoryId=10&maxResults=5&order=viewCount&key=${API_KEY}`;
+
+
   
   try {
     const response = await fetch(url);
