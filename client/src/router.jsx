@@ -7,6 +7,7 @@ import Player from './pages/Player';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
+import SongPage from './pages/SongPage'; // 👈 importamos la nueva página
 import Layout from './App'; 
 
 const router = createBrowserRouter([
@@ -20,7 +21,8 @@ const router = createBrowserRouter([
       { path: '/library', element: <Library /> },
       { path: '/player', element: <Player /> },
       { path: '/profile', element: <Profile /> },
-      { path: '/Home', element: <Home /> },
+      { path: '/home', element: <Home /> },
+      { path: '/song/:id', element: <SongPage /> }, // 👈 NUEVA RUTA
       { path: '*', element: <NotFound /> },
     ],
   },

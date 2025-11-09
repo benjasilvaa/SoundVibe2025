@@ -1,7 +1,10 @@
+// client/src/pages/Home.jsx
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Home.module.scss";
 import { searchVideos } from "../api/backendApi";
 import YouTubePlayer from "../components/YouTubePlayer";
+import Navbar from "../components/Navbar";
+import PlayerFooter from "../components/PlayerFooter"; // <-- footer independiente
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
@@ -16,9 +19,8 @@ export default function Home() {
   const inputRef = useRef(null);
   const [inputWidth, setInputWidth] = useState(0);
 
-  const truncateTitle = (title, maxLength = 25) => {
-    return title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
-  };
+  const truncateTitle = (title, maxLength = 25) =>
+    title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
 
   useEffect(() => {
     async function fetchInitialVideos() {
@@ -114,12 +116,9 @@ export default function Home() {
     setPlayer(playerInstance);
   };
 
-  // Medir ancho del input
   useEffect(() => {
     const updateWidth = () => {
-      if (inputRef.current) {
-        setInputWidth(inputRef.current.offsetWidth);
-      }
+      if (inputRef.current) setInputWidth(inputRef.current.offsetWidth);
     };
     updateWidth();
     window.addEventListener("resize", updateWidth);
@@ -128,18 +127,7 @@ export default function Home() {
 
   return (
     <div className={styles["home-page"]}>
-      <aside className={styles.sidebar}>
-        <h1>SoundVibe</h1>
-        <nav className={styles.nav}>
-          <a href="#">Inicio</a>
-          <a href="#">Buscar</a>
-          <a href="#">Tu biblioteca</a>
-        </nav>
-        <button className={styles.createBtn}>Crear lista</button>
-        <div className={styles.legal}>
-          <a href="#">Legal</a> | <a href="#">Privacidad</a>
-        </div>
-      </aside>
+      <Navbar />
 
       <main className={styles.main}>
         <header className={styles.header}>
@@ -214,45 +202,23 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className={styles.footer}>
-        <div className={styles.songInfo}>
-          {thumbnailUrl && (
-            <div className={styles.albumArt}>
-              <img src={thumbnailUrl} alt="cover" width="50" height="50" />
-            </div>
-          )}
-          <div>
-            <p>{videoTitle || "Cargando canción..."}</p>
-            <p className={styles.artist}>YouTube</p>
-          </div>
-        </div>
+      {/* Footer separado */}
+      <PlayerFooter
+        videoTitle={videoTitle}
+        thumbnailUrl={thumbnailUrl}
+        isPlaying={isPlaying}
+        onPlayPause={togglePlayPause}
+        onNext={handleNext}
+        onPrevious={handlePrevious}
+        volume={volume}
+        onVolumeChange={(v) => {
+          setVolume(v);
+          if (player) player.setVolume(v);
+        }}
+      />
 
-        <div className={styles.controls}>
-          <button onClick={handlePrevious}>⏮</button>
-          <button onClick={togglePlayPause}>
-            {isPlaying ? "⏸" : "▶️"}
-          </button>
-          <button onClick={handleNext}>⏭</button>
-        </div>
-
-        <div className={styles.volume}>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={volume}
-            onChange={(e) => {
-              const newVolume = parseInt(e.target.value);
-              setVolume(newVolume);
-              if (player) {
-                player.setVolume(newVolume);
-              }
-            }}
-          />
-        </div>
-
-        <YouTubePlayer videoId={videoId} onReady={handlePlayerReady} />
-      </footer>
+      {/* Player de YouTube oculto */}
+      <YouTubePlayer videoId={videoId} onReady={handlePlayerReady} />
     </div>
   );
 }
