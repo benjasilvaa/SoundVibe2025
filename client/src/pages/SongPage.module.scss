@@ -1,75 +1,139 @@
+:root {
+  /* Ajustá este valor si tu navbar lateral tiene otro ancho */
+  --sidebar-width: 240px;
+}
+
+/* ---- CONTENEDOR PRINCIPAL ---- */
 .songPage {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a001f 100%);
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+/* Navbar ocupa la primera columna */
+.songPage > :first-child {
+  grid-column: 1 / 2;
+  width: var(--sidebar-width);
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ---- CONTENIDO ---- */
+.container {
+  grid-column: 2 / 3;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #121212 0%, #181818 100%);
-  color: #fff;
-  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  box-sizing: border-box;
+  min-height: 100vh;
   overflow: hidden;
+}
 
-  .container {
-    flex: 1;
-    padding: 2rem;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Fondo suave detrás de la tarjeta */
+.container::before {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at center, rgba(127, 0, 255, 0.08), transparent 50%);
+  filter: blur(80px);
+  z-index: 0;
+}
+
+/* ---- SONGCARD ---- */
+.songCardWrapper {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.songCardWrapper > * {
+  margin: 0 auto;
+}
+
+/* ---- VOLUMEN ---- */
+.volumeControl {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #ddd;
+  z-index: 2;
+
+  label {
+    font-size: 0.9rem;
+    color: #aaa;
   }
 
-  .infoSection {
-    display: flex;
+  input[type="range"] {
+    width: 220px;
+    accent-color: #ff00cc;
+    cursor: pointer;
+  }
+}
+
+/* ---- SECCIONES OCULTAS ---- */
+.infoSection {
+  display: none;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 0px;
+  }
+
+  .songPage {
+    grid-template-columns: 1fr;
+  }
+
+  .songPage > :first-child {
+    display: none;
+  }
+
+  .container {
+    padding: 1rem;
+    justify-content: center;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
-
-    .coverWrapper {
-      width: 200px;
-      height: 200px;
-      overflow: hidden;
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    .textInfo {
-      h1 {
-        font-size: 1.8rem;
-        margin: 0;
-      }
-
-      p {
-        margin-top: 0.5rem;
-        font-size: 1rem;
-        color: #b3b3b3;
-      }
-    }
   }
 
   .songCardWrapper {
-    width: 100%;
-    max-width: 700px;
-    margin: 2rem 0;
+    max-width: 360px;
   }
 
   .volumeControl {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-
-    label {
-      font-size: 0.9rem;
-      color: #b3b3b3;
-    }
-
-    input[type="range"] {
-      width: 200px;
-      accent-color: #1db954;
-      cursor: pointer;
-    }
+    justify-content: center;
   }
+}
+
+/* ---- EFECTO VISUAL OPCIONAL ---- */
+.container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 0, 204, 0.05), transparent 70%);
+  z-index: 1;
+  pointer-events: none;
 }

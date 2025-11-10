@@ -9,21 +9,26 @@ const SongPage = () => {
   const { id } = useParams();
   const location = useLocation();
   const songData = location.state; // viene desde Explore.jsx
+
   const [player, setPlayer] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
 
+  // Cuando el reproductor de YouTube está listo
   const handlePlayerReady = (p) => {
-    p.setVolume(volume);
     setPlayer(p);
+    p.setVolume(volume);
     p.playVideo();
     setIsPlaying(true);
   };
 
+  // Play / Pause toggle
   const togglePlayPause = () => {
     if (!player) return;
     const state = player.getPlayerState();
+
     if (state === 1) {
+      // Reproduciendo
       player.pauseVideo();
       setIsPlaying(false);
     } else {
@@ -32,6 +37,7 @@ const SongPage = () => {
     }
   };
 
+  // Cargar nuevo video si cambia el ID
   useEffect(() => {
     if (player && id) {
       player.loadVideoById(id);
@@ -39,24 +45,20 @@ const SongPage = () => {
     }
   }, [id, player]);
 
+  // Control de volumen
+  const handleVolumeChange = (e) => {
+    const newVol = parseInt(e.target.value);
+    setVolume(newVol);
+    if (player) player.setVolume(newVol);
+  };
+
   return (
     <div className={styles.songPage}>
+      {/* 🧭 Navbar lateral (como en las demás páginas) */}
       <Navbar />
 
+      {/* 🎵 Contenedor principal */}
       <div className={styles.container}>
-        <div className={styles.infoSection}>
-          <div className={styles.coverWrapper}>
-            <img
-              src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
-              alt={songData?.snippet?.title || "Song Cover"}
-            />
-          </div>
-          <div className={styles.textInfo}>
-            <h1>{songData?.snippet?.title || "Título desconocido"}</h1>
-            <p>{songData?.snippet?.channelTitle || "Artista desconocido"}</p>
-          </div>
-        </div>
-
         <div className={styles.songCardWrapper}>
           <SongCard
             cover={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
@@ -64,9 +66,11 @@ const SongPage = () => {
             artist={songData?.snippet?.channelTitle}
             playing={isPlaying}
             onPlayPause={togglePlayPause}
+            player={player} // 👈 importante para progreso dinámico
           />
         </div>
 
+        {/* 🔊 Control de volumen */}
         <div className={styles.volumeControl}>
           <label>Volumen</label>
           <input
@@ -74,14 +78,11 @@ const SongPage = () => {
             min="0"
             max="100"
             value={volume}
-            onChange={(e) => {
-              const newVol = parseInt(e.target.value);
-              setVolume(newVol);
-              if (player) player.setVolume(newVol);
-            }}
+            onChange={handleVolumeChange}
           />
         </div>
 
+        {/* 📺 Reproductor oculto (solo controla el audio/video) */}
         <YouTubePlayer videoId={id} onReady={handlePlayerReady} />
       </div>
     </div>
